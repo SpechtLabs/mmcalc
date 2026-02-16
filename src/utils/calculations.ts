@@ -19,7 +19,7 @@ export function formatFocalLength(fl: number): string {
 
 export function formatAperture(ap: number): string {
   if (ap >= 10) return Math.round(ap).toString();
-  return ap.toFixed(1);
+  return ap.toFixed(2);
 }
 
 export interface DepthOfFieldResult {

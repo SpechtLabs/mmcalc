@@ -14,10 +14,19 @@ function createCard(sensorId = 'ff', focalLength = '', aperture = '', distance =
 }
 
 function parseCardParam(param: string): CardState | null {
-  const lastDash = param.lastIndexOf('-');
+  // Format: sensor-fl-ap or sensor-fl-ap@dist
+  let distance = '';
+  let core = param;
+  const atIdx = param.indexOf('@');
+  if (atIdx !== -1) {
+    distance = param.slice(atIdx + 1);
+    core = param.slice(0, atIdx);
+  }
+
+  const lastDash = core.lastIndexOf('-');
   if (lastDash === -1) return null;
-  const rest = param.slice(0, lastDash);
-  const aperture = param.slice(lastDash + 1);
+  const rest = core.slice(0, lastDash);
+  const aperture = core.slice(lastDash + 1);
 
   const secondLastDash = rest.lastIndexOf('-');
   if (secondLastDash === -1) return null;
@@ -25,7 +34,7 @@ function parseCardParam(param: string): CardState | null {
   const focalLength = rest.slice(secondLastDash + 1);
 
   if (!sensorId) return null;
-  return createCard(sensorId, focalLength, aperture);
+  return createCard(sensorId, focalLength, aperture, distance);
 }
 
 function getInitialCards(): CardState[] {
@@ -53,7 +62,11 @@ function syncUrl(cards: CardState[]) {
   const params = new URLSearchParams();
   for (const card of cards) {
     if (card.focalLength || card.aperture || card.sensorId !== 'ff') {
-      params.append('c', `${card.sensorId}-${card.focalLength || '0'}-${card.aperture || '0'}`);
+      let value = `${card.sensorId}-${card.focalLength || '0'}-${card.aperture || '0'}`;
+      if (card.distance) {
+        value += `@${card.distance}`;
+      }
+      params.append('c', value);
     }
   }
   const qs = params.toString();
