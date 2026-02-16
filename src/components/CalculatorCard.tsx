@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react';
 import { SensorSelect } from './SensorSelect';
 import { ApertureInput } from './ApertureInput';
 import { findSensorById, getCropFactor } from '../data/sensors';
@@ -14,6 +15,53 @@ interface CalculatorCardProps {
   card: CardState;
   onChange: (card: CardState) => void;
   onRemove?: () => void;
+}
+
+function ApertureInfoTip() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent | TouchEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
+    };
+  }, [open]);
+
+  return (
+    <div
+      className="relative inline-block"
+      ref={ref}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        onClick={() => setOpen(prev => !prev)}
+        aria-label="Aperture equivalence info"
+        className="text-gray-400 dark:text-gray-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors ml-0.5 cursor-pointer"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 px-3 py-2 rounded-lg bg-gray-800 dark:bg-gray-700 text-xs text-gray-100 shadow-lg z-20">
+          Equivalent aperture is for depth of field comparison only, not exposure.
+          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-gray-700" />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps) {
@@ -83,8 +131,9 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
               <div className="text-2xl font-bold text-teal-700 dark:text-teal-400">
                 {formatFocalLength(equivalentFocalLength(fl, cf))}mm
               </div>
-              <div className="text-2xl font-bold text-teal-700 dark:text-teal-400">
+              <div className="text-2xl font-bold text-teal-700 dark:text-teal-400 flex items-baseline gap-1">
                 f/{formatAperture(equivalentAperture(ap, cf))}
+                <ApertureInfoTip />
               </div>
             </div>
           ) : (
