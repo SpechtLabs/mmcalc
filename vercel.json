@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/terms",
+      "destination": "/api/legal?page=terms"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/api/legal?page=privacy"
+    },
+    {
+      "source": "/impressum",
+      "destination": "/api/legal?page=impressum"
+    },
+    {
       "source": "/:path((?:apsc-canon|[a-z0-9]+)-[0-9.]+(?:-[0-9.]+)?)",
       "destination": "/api/calc?path=$1"
     }
