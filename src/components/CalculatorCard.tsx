@@ -2,13 +2,17 @@ import { useState, useRef, useEffect } from 'react';
 import { SensorSelect } from './SensorSelect';
 import { ApertureInput } from './ApertureInput';
 import { findSensorById, getCropFactor } from '../data/sensors';
-import { equivalentFocalLength, equivalentAperture, formatFocalLength, formatAperture } from '../utils/calculations';
+import {
+  equivalentFocalLength, equivalentAperture, formatFocalLength, formatAperture,
+  depthOfField, circleOfConfusion, formatDistance,
+} from '../utils/calculations';
 
 export interface CardState {
   id: string;
   sensorId: string;
   focalLength: string;
   aperture: string;
+  distance: string;
 }
 
 interface CalculatorCardProps {
@@ -65,12 +69,15 @@ function ApertureInfoTip() {
 }
 
 export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps) {
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   const sensor = findSensorById(card.sensorId);
   const fl = parseFloat(card.focalLength);
   const ap = parseFloat(card.aperture);
+  const dist = parseFloat(card.distance);
   const cf = sensor ? getCropFactor(sensor) : 1;
 
   const hasResult = sensor && !isNaN(fl) && fl > 0 && !isNaN(ap) && ap > 0;
+  const hasDof = hasResult && !isNaN(dist) && dist > 0;
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/50 p-5 shadow-sm hover:shadow-md transition-shadow relative group">
@@ -144,6 +151,74 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
           {hasResult && (
             <div className="text-sm text-gray-500 dark:text-gray-400">
               Crop factor: {cf.toFixed(2)}x
+            </div>
+          )}
+        </div>
+
+        <div>
+          <button
+            onClick={() => setAdvancedOpen(prev => !prev)}
+            className="flex items-center gap-1.5 text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+              className={`transition-transform ${advancedOpen ? 'rotate-90' : ''}`}
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+            Advanced
+          </button>
+
+          {advancedOpen && (
+            <div className="mt-3 space-y-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                  Focus Distance
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={card.distance}
+                    onChange={e => onChange({ ...card, distance: e.target.value })}
+                    min="0.01"
+                    step="0.1"
+                    placeholder="2.0"
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 transition-colors pr-10"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-sm pointer-events-none">
+                    m
+                  </span>
+                </div>
+              </div>
+
+              {hasDof && sensor && (
+                <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-3 space-y-2">
+                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                    Depth of Field
+                  </div>
+                  {(() => {
+                    const coc = circleOfConfusion(sensor.width, sensor.height);
+                    const dof = depthOfField(fl, ap, dist, coc);
+                    return (
+                      <div className="space-y-1 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-500 dark:text-gray-400">Total DoF</span>
+                          <span className="font-medium text-teal-700 dark:text-teal-400">{formatDistance(dof.total)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500 dark:text-gray-400">Near limit</span>
+                          <span className="text-gray-700 dark:text-gray-300">{formatDistance(dof.nearLimit)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500 dark:text-gray-400">Far limit</span>
+                          <span className="text-gray-700 dark:text-gray-300">{formatDistance(dof.farLimit)}</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
             </div>
           )}
         </div>

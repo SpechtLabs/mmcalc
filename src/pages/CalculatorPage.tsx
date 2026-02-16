@@ -3,12 +3,13 @@ import { CalculatorCard, type CardState } from '../components/CalculatorCard';
 
 let nextId = 1;
 
-function createCard(sensorId = 'ff', focalLength = '', aperture = ''): CardState {
+function createCard(sensorId = 'ff', focalLength = '', aperture = '', distance = ''): CardState {
   return {
     id: String(nextId++),
     sensorId,
     focalLength,
     aperture,
+    distance,
   };
 }
 
