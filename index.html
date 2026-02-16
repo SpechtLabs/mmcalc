@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mmcalc.de – Focal Length & Aperture Equivalence Calculator</title>
+    <meta name="description" content="Convert focal length and aperture between sensor sizes. Compare lenses across Full Frame, APS-C, Medium Format, and more." />
+    <script>
+      // Prevent dark mode flash: apply theme before React mounts
+      (function() {
+        const stored = localStorage.getItem('theme');
+        if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

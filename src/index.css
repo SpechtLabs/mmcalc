@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-teal-50: #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-200: #99f6e4;
+  --color-teal-300: #5eead4;
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #008080;
+  --color-teal-600: #006d6d;
+  --color-teal-700: #005a5a;
+  --color-teal-800: #004747;
+  --color-teal-900: #003434;
+}
+
+body {
+  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased;
+  margin: 0;
+}
