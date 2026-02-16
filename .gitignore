@@ -1,3 +1,10 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+
 # Logs
 logs
 *.log
@@ -7,18 +14,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Environment
 *.local
+.env
+.env.*
 
-# Editor directories and files
+# macOS
+.DS_Store
+
+# Neovim
+*.sw?
+*.swo
+*.swn
+.netrwhist
+tags
+
+# VS Code / Cursor
 .vscode/*
 !.vscode/extensions.json
+
+# IDE
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
