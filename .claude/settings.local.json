@@ -12,7 +12,14 @@
       "Bash(git -C /Users/cedi/src/gh/SpechtLabs/mmcalc diff --stat)",
       "Bash(git -C /Users/cedi/src/gh/SpechtLabs/mmcalc log --oneline -5)",
       "Bash(git -C /Users/cedi/src/gh/SpechtLabs/mmcalc add .claude/settings.local.json)",
-      "Bash(git -C:*)"
+      "Bash(git -C:*)",
+      "Bash(npx vite build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(bun --version:*)",
+      "Bash(mise --version:*)",
+      "Bash(mise install:*)"
     ]
   }
 }
