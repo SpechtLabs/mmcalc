@@ -148,7 +148,7 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
               </div>
             </div>
           ) : (
-            <div className="text-2xl font-bold text-gray-400 dark:text-gray-500">
+            <div className="text-2xl font-bold text-gray-500 dark:text-gray-400">
               - mm &nbsp; f/-
             </div>
           )}
