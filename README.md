@@ -8,14 +8,14 @@ The original mmcalc.com was a beautifully simple tool that I used all the time. 
 
 I loved that site. And after years of muscle memory typing `mmcalc` into my browser, I couldn't be bothered to remember any other URL. So I built my own.
 
-This is my love letter to the original mmcalc.com. If you ran it and you're reading this -- thank you, it was great.
+This is my love letter to the original mmcalc.com. If you ran it and you're reading this: thank you, it was great.
 
 ## Features
 
 - Full-frame equivalent focal length and aperture calculation
 - Side-by-side comparison of multiple sensor formats
 - Depth of field calculator (near limit, far limit, total DoF)
-- Shareable URLs -- every calculator state is encoded in the query string
+- Shareable URLs: every calculator state is encoded in the query string
 - Dark mode
 - Works from the terminal
 
