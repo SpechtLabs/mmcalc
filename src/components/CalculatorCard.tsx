@@ -51,7 +51,7 @@ function ApertureInfoTip() {
         onClick={() => setOpen(prev => !prev)}
         aria-label="Aperture equivalence info"
         aria-expanded={open}
-        className="text-gray-400 dark:text-gray-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors ml-0.5 cursor-pointer"
+        className="text-gray-500 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors ml-0.5 cursor-pointer"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="10" />
@@ -86,7 +86,7 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
         <button
           onClick={onRemove}
           aria-label="Remove card"
-          className="absolute top-3 right-3 p-1.5 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+          className="absolute top-3 right-3 p-1.5 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18" />
@@ -118,7 +118,7 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
                 placeholder="50"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 transition-colors pr-10"
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-sm pointer-events-none">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 text-sm pointer-events-none">
                 mm
               </span>
             </div>
@@ -148,7 +148,7 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
               </div>
             </div>
           ) : (
-            <div className="text-2xl font-bold text-gray-300 dark:text-gray-600">
+            <div className="text-2xl font-bold text-gray-400 dark:text-gray-500">
               - mm &nbsp; f/-
             </div>
           )}
@@ -192,7 +192,7 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
                     placeholder="2.0"
                     className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 transition-colors pr-10"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-sm pointer-events-none">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 text-sm pointer-events-none">
                     m
                   </span>
                 </div>

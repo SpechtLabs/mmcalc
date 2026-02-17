@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="border-t border-gray-200 dark:border-gray-700 py-3 mt-auto">
       <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-3">
-        <nav className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
+        <nav className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
           <Link
             to="/impressum"
             className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
@@ -24,7 +24,7 @@ export function Footer() {
             Terms of Service
           </Link>
         </nav>
-        <details className="text-xs text-gray-400 dark:text-gray-500 w-full max-w-lg">
+        <details className="text-xs text-gray-500 dark:text-gray-400 w-full max-w-lg">
           <summary className="cursor-pointer text-center hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
             Also available from the CLI
           </summary>
