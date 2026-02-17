@@ -50,16 +50,17 @@ function ApertureInfoTip() {
       <button
         onClick={() => setOpen(prev => !prev)}
         aria-label="Aperture equivalence info"
+        aria-expanded={open}
         className="text-gray-400 dark:text-gray-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors ml-0.5 cursor-pointer"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="10" />
           <line x1="12" y1="16" x2="12" y2="12" />
           <line x1="12" y1="8" x2="12.01" y2="8" />
         </svg>
       </button>
       {open && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 px-3 py-2 rounded-lg bg-gray-800 dark:bg-gray-700 text-xs text-gray-100 shadow-lg z-20">
+        <div role="tooltip" className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 px-3 py-2 rounded-lg bg-gray-800 dark:bg-gray-700 text-xs text-gray-100 shadow-lg z-20">
           Equivalent aperture is for depth of field comparison only, not exposure.
           <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-gray-700" />
         </div>
@@ -96,17 +97,19 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
 
       <div className="space-y-4">
         <SensorSelect
+          id={`sensor-${card.id}`}
           value={card.sensorId}
           onChange={sensorId => onChange({ ...card, sensorId })}
         />
 
         <div className="flex gap-3">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+            <label htmlFor={`fl-${card.id}`} className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
               Focal Length
             </label>
             <div className="relative">
               <input
+                id={`fl-${card.id}`}
                 type="number"
                 value={card.focalLength}
                 onChange={e => onChange({ ...card, focalLength: e.target.value })}
@@ -122,6 +125,7 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
           </div>
 
           <ApertureInput
+            id={`ap-${card.id}`}
             value={card.aperture}
             onChange={aperture => onChange({ ...card, aperture })}
           />
@@ -158,6 +162,7 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
         <div>
           <button
             onClick={() => setAdvancedOpen(prev => !prev)}
+            aria-expanded={advancedOpen}
             className="flex items-center gap-1.5 text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors cursor-pointer"
           >
             <svg
@@ -173,11 +178,12 @@ export function CalculatorCard({ card, onChange, onRemove }: CalculatorCardProps
           {advancedOpen && (
             <div className="mt-3 space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                <label htmlFor={`dist-${card.id}`} className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
                   Focus Distance
                 </label>
                 <div className="relative">
                   <input
+                    id={`dist-${card.id}`}
                     type="number"
                     value={card.distance}
                     onChange={e => onChange({ ...card, distance: e.target.value })}
