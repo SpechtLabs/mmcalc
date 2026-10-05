@@ -1,0 +1,58 @@
+# The calculator: sensor data, the math and the pages around them
+calculator:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/data/**"
+          - "src/utils/**"
+          - "src/pages/CalculatorPage.tsx"
+          - "src/components/**"
+
+# The curl-friendly API and the legal pages it serves (Vercel functions)
+api:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "api/**"
+          - "vercel.json"
+
+# Legal pages
+legal:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "public/*.md"
+          - "src/pages/ImpressumPage.tsx"
+          - "src/pages/PrivacyPage.tsx"
+          - "src/pages/TermsPage.tsx"
+
+# Documentation
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "*.md"
+
+# Build and CI plumbing
+build:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+          - ".mise.toml"
+          - ".pre-commit-config.yaml"
+          - ".yamllint.yaml"
+          - ".editorconfig"
+          - "eslint.config.js"
+          - "vite.config.ts"
+          - "tsconfig*.json"
+          - "package.json"
+          - "bun.lock"
+          - "renovate.json"
+
+# Add 'enhancement' to any PR whose head branch starts with `feat` or `feature`
+enhancement:
+  - head-branch:
+      - "^feat"
+      - "^feature"
+
+# Add 'bug' to any PR whose head branch starts with `fix` or `bug`
+bug:
+  - head-branch:
+      - "^fix"
+      - "^bug"

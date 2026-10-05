@@ -54,14 +54,15 @@ The URL pattern is `/<sensor>-<focal_length>-<aperture>`.
 
 ## Development
 
-Tool versions are managed with [mise](https://mise.jdx.dev/):
+Tool versions are pinned in `.mise.toml` and managed with [mise](https://mise.jdx.dev/), whose
+tasks are also what CI runs:
 
 ```sh
-mise install        # installs node 22 + bun
-bun install         # install dependencies
-bun run dev         # start dev server
-bun run build       # type-check + production build
-bun run lint        # eslint
+mise install        # installs node, bun and the linters
+mise run dev        # install dependencies, start the dev server
+mise run build      # type-check + production build
+mise run lint       # eslint, yamllint, actionlint
+mise run check      # everything CI runs
 ```
 
 ## License

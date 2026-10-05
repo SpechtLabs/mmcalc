@@ -53,7 +53,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   // Parse: sensor-focalLength-aperture (sensor may contain dashes like "apsc-canon")
   // Strategy: try known multi-word sensor IDs first, then fall back to single-word
   let sensorId: string | undefined;
-  let rest: string | undefined;
+  let rest = '';
 
   const knownMultiWordIds = Object.keys(SENSORS).filter(id => id.includes('-')).sort((a, b) => b.length - a.length);
   for (const id of knownMultiWordIds) {

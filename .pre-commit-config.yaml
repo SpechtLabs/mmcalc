@@ -1,0 +1,45 @@
+repos:
+  # Generic pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: check-case-conflict
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      # tsconfig files are JSON with comments, which check-json rejects.
+      - id: check-json
+        exclude: (^|/)tsconfig[^/]*\.json$
+      - id: mixed-line-ending
+      - id: check-added-large-files
+        name: check for added large files
+        description: Prevents giant files from being committed
+        args: ["--maxkb=500"]
+
+  # ESLint, yamllint and actionlint run as the mise-pinned versions rather than
+  # copies pre-commit would build, so the hooks and CI agree on the version.
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: mise exec -- bunx eslint --no-warn-ignored
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+      - id: yamllint
+        name: yamllint
+        entry: mise exec -- yamllint --strict
+        language: system
+        types: [yaml]
+      - id: actionlint
+        name: actionlint
+        entry: mise exec -- actionlint
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
