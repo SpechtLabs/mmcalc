@@ -1,3 +1,82 @@
+# .mise.toml — local tooling, exact pins (repo convention)
+#
+# The tasks below define how mmcalc is built and checked. CI uses these tasks.
+# Renovate keeps every pin in this file current.
+
+# mise would otherwise read tool versions from files like .nvmrc or
+# .bun-version; every tool comes from this file only.
+[settings]
+idiomatic_version_file_enable_tools = []
+
 [tools]
-node = "22"
-bun = "latest"
+bun = "1.4.2"
+# Vite builds on Node, and the api/ functions run on Vercel's Node runtime.
+# @types/node follows this major.
+node = "24.21.0"
+
+# Pre-commit for Git hooks
+pre-commit = "4.6.2"
+
+# Linters for the repository's YAML and workflows
+yamllint = "1.38.0"
+actionlint = "1.7.12"
+# actionlint runs shellcheck on every `run:` script when it's on PATH, and
+# silently skips them when it isn't.
+shellcheck = "0.11.0"
+
+# Pins GitHub Actions to commit SHAs (see the update-gha task)
+pinact = "5.0.0"
+
+[tasks.install]
+description = "Install the dependencies from bun.lock"
+run = "bun install --frozen-lockfile"
+
+[tasks.dev]
+description = "Run the Vite dev server with hot reload"
+depends = ["install"]
+run = "bun run dev"
+
+# tsc -b checks the app (tsconfig.app.json), vite.config.ts
+# (tsconfig.node.json) and the api/ functions (tsconfig.api.json).
+[tasks.typecheck]
+description = "Type-check the app, the Vite config and the api/ functions with tsc"
+depends = ["install"]
+run = "bun run typecheck"
+
+# The build script runs tsc -b first, so it type-checks too.
+[tasks.build]
+description = "Type-check, then build the app into dist/"
+depends = ["install"]
+run = "bun run build"
+
+# `mise run fmt` applies what ESLint can fix; `mise run lint` checks without
+# touching a file.
+[tasks.fmt]
+description = "Apply ESLint's automatic fixes"
+depends = ["install"]
+run = "bun run lint --fix"
+
+[tasks.lint]
+description = "Lint the sources with ESLint, and the YAML and workflows"
+depends = ["ts-lint", "yaml-lint", "actionlint"]
+
+[tasks.ts-lint]
+description = "Lint the app and the api/ functions with ESLint"
+depends = ["install"]
+run = "bun run lint"
+
+[tasks.yaml-lint]
+description = "Lint every YAML file in the repository"
+run = "yamllint --strict ."
+
+[tasks.actionlint]
+description = "Lint the GitHub Actions workflows"
+run = "actionlint"
+
+[tasks.check]
+description = "The definition of done: every gate CI runs"
+depends = ["lint", "build"]
+
+[tasks.update-gha]
+description = "Pin GitHub Actions to commit SHAs (Renovate keeps them current afterwards)"
+run = "pinact run"

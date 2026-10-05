@@ -1,0 +1,62 @@
+name: Pull Request Hygiene
+
+# Squash merges take the PR title as the commit subject, so the title is what
+# the history on main reads. Titles follow Conventional Commits, like
+# Renovate's, so that history stays uniform.
+#
+# There is no release-please here (Vercel deploys main continuously and
+# nothing is versioned), so the squash commit message check sigil runs for
+# release-please's parser has nothing to protect and is left out.
+
+on:
+  pull_request_target:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  pr-title:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    permissions:
+      statuses: write
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
+        id: lint_pr_title
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # When the previous step fails the job would stop; always() lets it post
+      # the error message as a comment.
+      - uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        if: always() && (steps.lint_pr_title.outputs.error_message != null)
+        with:
+          header: pr-title-lint-error
+          message: |
+            Thanks for the pull request!
+
+            Titles here follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
+            because the squash merge makes the title the commit subject on main.
+
+            ```text
+            ${{ steps.lint_pr_title.outputs.error_message }}
+            ```
+
+      # Delete the previous comment once the title is fixed.
+      - uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        if: ${{ steps.lint_pr_title.outputs.error_message == null }}
+        with:
+          header: pr-title-lint-error
+          delete: true
+
+  labeler:
+    name: Label PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
+        with:
+          sync-labels: true
+          dot: true

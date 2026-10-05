@@ -5,12 +5,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```sh
-bun run dev       # Vite dev server with HMR
-bun run build     # Type-check (tsc -b) + production build to dist/
-bun run lint      # ESLint (flat config)
+mise run dev        # Vite dev server with HMR
+mise run build      # Type-check (tsc -b) + production build to dist/
+mise run typecheck  # tsc -b alone: the app, vite.config.ts and api/
+mise run lint       # ESLint (flat config), yamllint, actionlint
+mise run check      # everything CI runs
 ```
 
-Tool versions are managed via `.mise.toml` (node 22, bun latest).
+Tool versions are pinned exactly in `.mise.toml`, and CI runs the same mise tasks.
 
 ## Architecture
 
