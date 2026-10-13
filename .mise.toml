@@ -15,7 +15,7 @@ bun = "1.4.3"
 node = "24.21.0"
 
 # Pre-commit for Git hooks
-pre-commit = "4.6.2"
+pre-commit = "4.7.0"
 
 # Linters for the repository's YAML and workflows
 yamllint = "1.38.0"
