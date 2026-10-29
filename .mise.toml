@@ -12,7 +12,7 @@ idiomatic_version_file_enable_tools = []
 bun = "1.4.4"
 # Vite builds on Node, and the api/ functions run on Vercel's Node runtime.
 # @types/node follows this major.
-node = "24.22.1"
+node = "24.22.2"
 
 # Pre-commit for Git hooks
 pre-commit = "4.7.0"
